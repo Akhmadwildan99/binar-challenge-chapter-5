@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts');
-const { body, validationResult } = require('express-validator');
-const {findUserName, findUserPassword} = require('./utility/login')
+const { body, validationResult, check } = require('express-validator');
+const {findUserName, findUserPassword, addDataUser} = require('./utility/login')
 const port = 3000
 
 // Gunakan ejs
@@ -45,17 +45,17 @@ app.get('/log_in', (req, res)=>{
 
 // Proses Log in
 app.post('/', [
-    body('nama').custom((value,)=>{
+    body('nama').custom((value)=>{
         const findName = findUserName(value);
         if(!findName){
-            throw new Error('USername confirmation does not match name');
+            throw new Error('Username tidak valid!');
         }
         return true;
     }),
     body('password').custom((value)=>{
         const findPassword = findUserPassword(value); 
         if(!findPassword){
-            throw new Error('Password confirmation does not match Password');
+            throw new Error('Password tidak valid!');
         }
         return true;
     })
@@ -75,6 +75,45 @@ app.post('/', [
             res.redirect('/');
         }
     });
+
+// Halaman Sign-up
+
+app.get('/sign-up', (req, res)=>{
+    res.render('signup',{
+        title: 'Halaman Sign-Up',
+        css: 'css/login.css',
+        layout: 'layouts/main-layouts'
+    });
+});
+
+// Proses Sign-UP
+
+app.post('/log_in',  [
+    body('nama').custom((value)=>{
+        const findName = findUserName(value);
+        if(findName){
+            throw new Error('Username sudah digunakan!');
+        }
+        return true;
+    }),
+    check('email', 'Email tidak valid!').isEmail()
+    ], 
+    (req, res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        // return res.status(400).json({ errors: errors.array() });
+        res.render('signup',{
+            layout: 'layouts/main-layouts',
+            title: 'Halaman Sign-Up',
+            css: 'css/login.css',
+            errors: errors.array()
+        });
+    } else {
+        addDataUser(req.body);
+        res.redirect('/log_in');
+    }
+}
+);
 
 
 

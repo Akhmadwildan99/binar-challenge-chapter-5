@@ -33,4 +33,14 @@ const findUserPassword = (password) => {
     return user;
 }
 
-module.exports = { findUserName, findUserPassword };
+const saveDataUser = (users) => {
+    fs.writeFileSync('data/dataUser.json', JSON.stringify(users));
+}
+
+const addDataUser = (user) => {
+    const users = loadUser();
+    users.push(user);
+    saveDataUser(users);
+}
+
+module.exports = { findUserName, findUserPassword, addDataUser };

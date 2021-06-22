@@ -31,7 +31,14 @@ body {
     background: rgba(255, 255, 255, 0.08);
 }
 
-button {
+.btn.btn-warning {
+    margin: 10px !important;
+    width: 130px;
+    height: 45px;
+    text-align: center;
+}
+
+.btn.btn-info {
     margin: 10px !important;
     width: 130px;
     height: 45px;
