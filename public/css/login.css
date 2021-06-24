@@ -29,6 +29,7 @@ body {
 
 .col-md-4 form input {
     background: rgba(255, 255, 255, 0.08);
+    color: white;
 }
 
 .btn.btn-warning {
@@ -43,5 +44,9 @@ body {
     width: 130px;
     height: 45px;
     text-align: center;
+}
+
+.alert {
+    color: black;
 }
 

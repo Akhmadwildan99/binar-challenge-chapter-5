@@ -96,7 +96,12 @@ app.post('/log_in',  [
         }
         return true;
     }),
-    check('email', 'Email tidak valid!').isEmail()
+    check('email', 'Email tidak valid!').isEmail(),
+    check('password')
+    .isLength({ min: 5 })
+    .withMessage('Password harus berisi minimal lima karakter!')
+    .matches(/\d/)
+    .withMessage('Harus terdapat karakter angka untuk proteksi!')
     ], 
     (req, res)=>{
     const errors = validationResult(req);
