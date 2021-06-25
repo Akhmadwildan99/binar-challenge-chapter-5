@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts');
 const { body, validationResult, check } = require('express-validator');
+const router = require('./utility/router');
+const dataUser = require('./data/dataUser.json');
 const {findUserName, findUserPassword, addDataUser} = require('./utility/login')
 const port = 3000
 
@@ -11,6 +13,8 @@ app.set('view engine', 'ejs');
 // Built-in Midleware
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+app.use(router);
 
 // third party midlleware
 app.use(expressLayouts);
@@ -119,6 +123,39 @@ app.post('/log_in',  [
     }
 }
 );
+
+// Halaman setelah login
+
+// app.get('/login/:nama', (req, res)=>{
+//     const findName = findUserName(req.body.nama);
+//     res.render('after-login',{
+//         title: 'Halaman user',
+//         css: 'css/landingPage.css',
+//         layout: 'layouts/main-layouts',
+//         findName,
+//     });
+// });
+
+// Restfull API
+
+app.post('/api/v1/dataUser', (req, res)=>{
+    res.status(200).json(dataUser);
+});
+
+
+// File not found error Handling
+
+app.use((req, res, next)=>{
+    res.status(404);
+    res.render('notfound', {
+        title: 'Halaman error',
+        css: 'css/error.css',
+        layout: 'layouts/main-layouts'
+    });
+});
+
+
+
 
 
 
