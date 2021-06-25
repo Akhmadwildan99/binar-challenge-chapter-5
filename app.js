@@ -4,8 +4,8 @@ const expressLayouts = require('express-ejs-layouts');
 const { body, validationResult, check } = require('express-validator');
 const router = require('./utility/router');
 const dataUser = require('./data/dataUser.json');
-const {findUserName, findUserPassword, addDataUser} = require('./utility/login')
-const port = 3000
+const {findUserName, findUserPassword, addDataUser} = require('./utility/login');
+const port = 8081
 
 // Gunakan ejs
 app.set('view engine', 'ejs');
@@ -18,6 +18,7 @@ app.use(router);
 
 // third party midlleware
 app.use(expressLayouts);
+
 
 // Render Halaman pertama
 
@@ -48,7 +49,7 @@ app.get('/log_in', (req, res)=>{
 });
 
 // Proses Log in
-app.post('/', [
+app.post('/game', [
     body('nama').custom((value)=>{
         const findName = findUserName(value);
         if(!findName){
@@ -76,7 +77,7 @@ app.post('/', [
             });
         } else {
             // res.send('ok');
-            res.redirect('/');
+            res.redirect('/game');
         }
     });
 
@@ -124,22 +125,12 @@ app.post('/log_in',  [
 }
 );
 
-// Halaman setelah login
 
-// app.get('/login/:nama', (req, res)=>{
-//     const findName = findUserName(req.body.nama);
-//     res.render('after-login',{
-//         title: 'Halaman user',
-//         css: 'css/landingPage.css',
-//         layout: 'layouts/main-layouts',
-//         findName,
-//     });
-// });
+// // Rest API
 
-// Restfull API
-
-app.post('/api/v1/dataUser', (req, res)=>{
-    res.status(200).json(dataUser);
+app.get('/dataUser', (req, res)=>{
+    res.status(200)
+    .json(dataUser);
 });
 
 
@@ -160,6 +151,6 @@ app.use((req, res, next)=>{
 
 
 app.listen(port, () =>{
-    console.log(`listen ini berjalan di port ${port}`)
+    console.log(`Server ini berjalan di port ${port}`)
 });
 

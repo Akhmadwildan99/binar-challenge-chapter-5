@@ -23,7 +23,7 @@ const loadUser = () => {
 
 const findUserName = (nama) => {
     const users = loadUser();
-    const user = users.find((user) => user.nama === nama);
+    const user = users.find((user) => user.nama.toLowerCase() === nama.toLowerCase());
     return user;
 }
 
