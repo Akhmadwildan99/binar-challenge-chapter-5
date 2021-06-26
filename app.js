@@ -1,5 +1,5 @@
 const express = require('express')
-const app = express()
+const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const { body, validationResult, check } = require('express-validator');
 const router = require('./utility/router');
@@ -125,7 +125,7 @@ app.post('/log_in',  [
 }
 );
 
-// // Rest API
+// Rest API
 
 app.get('/dataUsers', (req, res)=>{
     res.status(200)
