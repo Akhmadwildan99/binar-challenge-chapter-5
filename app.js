@@ -3,7 +3,7 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts');
 const { body, validationResult, check } = require('express-validator');
 const router = require('./utility/router');
-const dataUser = require('./data/dataUser.json');
+const dataUsers = require('./data/dataUser.json');
 const {findUserName, findUserPassword, addDataUser} = require('./utility/login');
 const port = 8081
 
@@ -125,10 +125,16 @@ app.post('/log_in',  [
 }
 );
 
-
 // // Rest API
 
-app.get('/dataUser', (req, res)=>{
+app.get('/dataUsers', (req, res)=>{
+    res.status(200)
+    .json(dataUsers);
+});
+
+
+app.get('/dataUsers/:nama', (req, res)=>{
+    const dataUser = dataUsers.find(user => user.nama == req.params.nama);
     res.status(200)
     .json(dataUser);
 });
@@ -144,9 +150,6 @@ app.use((req, res, next)=>{
         layout: 'layouts/main-layouts'
     });
 });
-
-
-
 
 
 
