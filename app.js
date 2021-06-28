@@ -148,12 +148,11 @@ app.delete('/dataUsers/:nama', (req, res)=>{
 });
 
 
-// File not found error Handling
+// error Handling
 
 app.use((err, req, res, next)=>{
     res.status(500);
     res.render('err', {
-        status: 'Fail',
         title: 'Halaman error',
         css: 'css/error.css',
         layout: 'layouts/main-layouts'
