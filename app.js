@@ -134,13 +134,31 @@ app.get('/dataUsers', (req, res)=>{
 
 
 app.get('/dataUsers/:nama', (req, res)=>{
-    const dataUser = dataUsers.find(user => user.nama == req.params.nama);
+    const dataUser = dataUsers.find(user => user.id == req.params.id);
+    res.status(200)
+    .json(dataUser);
+});
+
+
+
+app.delete('/dataUsers/:nama', (req, res)=>{
+    const dataUser = dataUsers.filter(user => user.nama !== req.params.nama);
     res.status(200)
     .json(dataUser);
 });
 
 
 // File not found error Handling
+
+app.use((err, req, res, next)=>{
+    res.status(500);
+    res.render('err', {
+        status: 'Fail',
+        title: 'Halaman error',
+        css: 'css/error.css',
+        layout: 'layouts/main-layouts'
+    });
+});
 
 app.use((req, res, next)=>{
     res.status(404);
@@ -154,6 +172,6 @@ app.use((req, res, next)=>{
 
 
 app.listen(port, () =>{
-    console.log(`Server ini berjalan di port ${port}`)
+    console.log(`Server ini berjalan di http://localhost:${port}`)
 });
 
